@@ -192,6 +192,10 @@ int main(int argc, char* argv[]) {
         std::cerr << "Error: step must be greater than zero\n";
         return 1;
     }
+
+    angleDegrees = std::fmod(angleDegrees, 360.0);
+    if (angleDegrees < 0) angleDegrees += 360.0;
+
     double angleRadians = degreesToRadians(angleDegrees);
 
     double width = topRight.x - bottomLeft.x;
@@ -204,12 +208,20 @@ int main(int argc, char* argv[]) {
     };
 
     // --- Генерация линий ---
-    if (angleDegrees == 0) {
+    if (angleDegrees == 0 || angleDegrees == 360) {
+        // Горизонтальные линии сверху вниз
         for (double y = bottomLeft.y; y <= topRight.y; y += step) {
             hatchLines.push_back({ {bottomLeft.x, y}, {topRight.x, y} });
         }
     }
-    else if (angleDegrees == 90) {
+    else if (angleDegrees == 180 || angleDegrees == -180) {
+        // Горизонтальные линии снизу вверх
+        for (double y = topRight.y; y >= bottomLeft.y; y -= step) {
+            hatchLines.push_back({ {bottomLeft.x, y}, {topRight.x, y} });
+        }
+    }
+    else if (angleDegrees == 90 || angleDegrees == -90 || angleDegrees == 270 || angleDegrees == -270) {
+        // Вертикальные линии слева направо
         for (double x = bottomLeft.x; x <= topRight.x; x += step) {
             hatchLines.push_back({ {x, bottomLeft.y}, {x, topRight.y} });
         }
