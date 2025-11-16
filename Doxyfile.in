@@ -1,0 +1,6 @@
+PROJECT_NAME           = "@PROJECT_NAME@"
+OUTPUT_DIRECTORY       = "@CMAKE_CURRENT_BINARY_DIR@/docs"
+INPUT                  = "@CMAKE_CURRENT_SOURCE_DIR@/src"
+RECURSIVE              = YES
+GENERATE_LATEX         = NO
+QUIET                  = YES
