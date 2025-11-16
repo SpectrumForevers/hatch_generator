@@ -2,13 +2,15 @@
  * @file main.cpp
  * @brief Основная точка входа программы hatch_generator.
  *
+ * выполняется с помощью (пример) ./hatch_generator --angle 45 --step 1.
+ * 
  * Программа генерирует линии (штриховку) под заданным углом и шагом,
  * выполняет обрезку линий алгоритмом Коэна–Сазерленда и сохраняет результат в SVG-файл.
  *
  * Поддерживаемые параметры:
  * - `--angle <число>` - угол наклона линий в градусах.
  * - `--step <число>` - расстояние между линиями.
- *
+ * 
  * Результат сохраняется в файл `hatch.svg` в папке сборки.
  */
 
@@ -186,7 +188,10 @@ int main(int argc, char* argv[]) {
         if (arg == "--angle" && i + 1 < argc) angleDegrees = std::stod(argv[++i]);
         else if (arg == "--step" && i + 1 < argc) step = std::stod(argv[++i]);
     }
-
+    if (step <= 0) {
+        std::cerr << "Error: step must be greater than zero\n";
+        return 1;
+    }
     double angleRadians = degreesToRadians(angleDegrees);
 
     double width = topRight.x - bottomLeft.x;
